@@ -1,4 +1,4 @@
-#' @title  Get a following-list for mutliple users
+#' @title  Get following-lists for mutliple users
 #'
 #' @description This function scrapes all accounts a user follows for a list of twitter users.
 #'
