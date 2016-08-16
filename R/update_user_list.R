@@ -9,7 +9,7 @@
 #' @import twitteR
 #'
 #' @examples
-#' update_user_list(c("joh_jo_mueller", "hadleywickham"))
+#' update_user_list(c("RStudio", "hadleywickham"))
 
 
 update_user_list <- function(user_list){
