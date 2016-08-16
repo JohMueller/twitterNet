@@ -2,7 +2,7 @@
 #'
 #' @description This function scrapes all retweets in a user's timeline for a list of twitter users.
 #'
-#' Note that this may take a while due to the Twitter API rate limits.
+#' Note that this may take a while due to the Twitter API rate limits...
 #'
 #' @param user_list  chr-vector or -list containing multiple Twitter user names
 #'
