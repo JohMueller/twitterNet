@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "###Step 3: Functions to  scrape the retweet list for a list of user\n\nget_retweet_list <- function(user_list, \n                             limit = 2400, \n                             date_begin = \"2006-01-01\",\n                             date_end = Sys.Date()){\n  \n  retweet_list <- list()\n  iter <- 0\n  total_tweets <- 0\n  \n  for (user in user_list){\n    timeline <- userTimeline(user, n=limit, includeRts=T)\n    user1 <- do.call(\"rbind\", lapply(timeline, as.data.frame))\n    user1 <- user1[which(user1$isRetweet ==T), ]\n    \n    if (!is.null(user1)){\n      user1 <- user1[which(as.Date(user1$created) >= as.Date(date_begin)&\n                             as.Date(user1$created) <= as.Date(date_end)), ] ### Created after 1.Feburary\n    }\n    \n    user1$retweets <- str_extract(user1$text, \"((@)\\\\w+){1}\") ### extract only the mentions\n    user_retweets <- paste(user1$retweets, collapse = ' ')\n    \n    retweet_list <- c(retweet_list, user_retweets)\n    \n    fix_rate_limit()\n    \n    total_tweets <- total_tweets + length(user1$text)\n    iter <- iter + 1\n    message('Processing user ', iter, ' of ', length(user_list), ' at ',\n            Sys.time(), '; Rate Limit Info (Remaining): ', getCurRateLimitInfo()[39, 3])\n  }\n  \n  print(paste0(\"The total number of tweets processed is \", total_tweets))\n  retweet_list\n}\n",
+    "created" : 1471363763613.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "632272851",
+    "id" : "77F10E0F",
+    "lastKnownWriteTime" : 1471351840,
+    "last_content_update" : 1471351840,
+    "path" : "C:/Users/Johannes/Desktop/network_analysis/twitterNet/R/get_retweet_list.R",
+    "project_path" : "R/get_retweet_list.R",
+    "properties" : {
+    },
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

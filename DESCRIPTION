@@ -1,0 +1,10 @@
+Package: twitterNet
+Type: Package
+Title: Collecting Network Data from Twitter
+Version: 0.1.0
+Authors@R: person("Johannes J.", "Mueller", email = "johannes.2.mueller@uni-konstanz.de", role = c("aut", "cre"))
+Description: More about what it does (maybe more than one line)
+License: MIT
+LazyData: TRUE
+RoxygenNote: 5.0.1
+

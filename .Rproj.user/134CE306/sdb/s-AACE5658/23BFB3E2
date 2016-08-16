@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#### Set up adjacency matrix for a follower-, mention- or retweet-network given a\n#### Twitter_user_list\n\nsetup_adj_matrix <- function(user_list,\n                    type = \"mention\",\n                    update_list = TRUE,\n                    limit = 2400,\n                    date_begin = \"2006-01-01\",\n                    date_end = Sys.Date()){\n\n  ### Step 1: Update user_list\n  if (update_list== TRUE){\n    user_list <- update_user_list(user_list)\n  }\n\n  ### Step 2: Get mention/follower/retweet-lists for every user from the list\n  if(type == \"mention\"){\n    mention_list <- get_mention_list(user_list, limit, date_begin, date_end)\n  } else if (type == \"retweet\"){\n    mention_list <- get_retweet_list(user_list, limit, date_begin, date_end)\n  } else{\n    mention_list <- get_following_list(user_list)\n  }\n\n  ### Step 3: Get adj. Matrix\n  adj_matrix <- get_adj_matrix(user_list, mention_list)\n  adj_matrix\n}\n",
+    "created" : 1471363764904.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2581683154",
+    "id" : "23BFB3E2",
+    "lastKnownWriteTime" : 1471376039,
+    "last_content_update" : 1471376039925,
+    "path" : "C:/Users/Johannes/Desktop/network_analysis/twitterNet/R/setup_adj_matrix.R",
+    "project_path" : "R/setup_adj_matrix.R",
+    "properties" : {
+    },
+    "relative_order" : 8,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

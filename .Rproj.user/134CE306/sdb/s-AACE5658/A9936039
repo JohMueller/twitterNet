@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' Function to fix the rate limit problem\n#'\n\nfix_rate_limit <- function(){\n  limit1 <- getCurRateLimitInfo()[44, 3]\n  limit2 <- getCurRateLimitInfo()[39, 3]\n  limit3 <- getCurRateLimitInfo()[11, 3]\n  limit4 <- getCurRateLimitInfo()[53, 3]\n  limit5 <- getCurRateLimitInfo()[56, 3]\n\n  while (limit1 == \"0\"|\n         as.numeric(limit2) < 30|\n         limit3 == \"0\"|\n         limit4 == \"0\"|\n         limit5 == \"0\") {\n    Sys.sleep(60)\n    limit1 <- getCurRateLimitInfo()[44, 3]\n    limit2 <- getCurRateLimitInfo()[39, 3]\n    limit3 <- getCurRateLimitInfo()[11, 3]\n    limit4 <- getCurRateLimitInfo()[53, 3]\n    limit5 <- getCurRateLimitInfo()[56, 3]\n  }\n}\n",
+    "created" : 1471363509186.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1010275940",
+    "id" : "A9936039",
+    "lastKnownWriteTime" : 1471377514,
+    "last_content_update" : 1471377514064,
+    "path" : "C:/Users/Johannes/Desktop/network_analysis/twitterNet/R/fix_rate_limit.R",
+    "project_path" : "R/fix_rate_limit.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

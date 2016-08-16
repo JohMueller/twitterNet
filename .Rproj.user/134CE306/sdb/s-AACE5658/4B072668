@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @title  Get mention-lists for mutliple users\n#'\n#' @description This function scrapes all mentions in a user's timeline for a list of twitter users.\n#'\n#' Note that this may take a while due to the Twitter API rate limits.\n#'\n#' @param user_list  chr-vector or -list containing multiple Twitter user names\n#'\n#' @return Returns a list of character vectors which contain the \"accounts followed\" for all users from the user_list\n#' @export\n#'\n#' @import twitteR\n#' @import stringr\n#'\n#' @examples\n#' # Setup a retweet matrix\n#'  user_list <- c(\"hadleywickham\", \"joh_jo_mueller\")\n#'  get_following_list(user_list)\n\n\n###Step 3: Functions to  (1) scrape list of all mentions of one user for a list of users\n\nget_mention_list <- function(user_list, \n                             limit = 2400, \n                             date_begin = \"2006-01-01\",\n                             date_end = Sys.Date()\n){\n  \n  mention_list <- list()\n  iter <- 0\n  total_tweets <- 0\n  \n  for (user in user_list){\n    timeline <- userTimeline(user, n= limit, includeRts=F)\n    user1 <- do.call(\"rbind\", lapply(timeline, as.data.frame))\n    \n    if (!is.null(user1)){\n      user1 <- user1[which(as.Date(user1$created) >= as.Date(date_begin)&\n                             as.Date(user1$created) <= as.Date(date_end) ), ] ### Created after 1.Feburary\n    }\n    \n    user1$mentions <- str_extract_all(user1$text, \"((@)\\\\w+)\") ### extract only the mentions\n    user_mentions <- paste(user1$mentions, collapse = ' ')\n    \n    mention_list <- c(mention_list, user_mentions)\n    \n    fix_rate_limit()\n    \n    total_tweets <- total_tweets + length(user1$text)\n    iter <- iter + 1\n    message('Processing user ', iter, ' of ', length(user_list), ' at ',\n            Sys.time(), '; Rate Limit Info (Remaining): ', getCurRateLimitInfo()[39, 3])\n  }\n  \n  print(paste0(\"The total number of tweets processed is \", total_tweets))\n  mention_list\n}\n",
+    "created" : 1471363762281.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2298183654",
+    "id" : "4B072668",
+    "lastKnownWriteTime" : 1471351674,
+    "last_content_update" : 1471382114763,
+    "path" : "C:/Users/Johannes/Desktop/network_analysis/twitterNet/R/get_mention_list.R",
+    "project_path" : "R/get_mention_list.R",
+    "properties" : {
+    },
+    "relative_order" : 6,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

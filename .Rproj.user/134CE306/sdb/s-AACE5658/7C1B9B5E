@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @title  Update a twitter user list\n#'\n#' @description Fix for an errorness list of Twitter users. Also prints names of inactive accounts.\n#'\n#' @param user_list  chr-vector or -list containing multiple Twitter user names\n#' @return Returns an updated user list without the inactive Twitter accounts\n#' @export\n#'\n#' @import twitteR\n#'\n#' @examples\n#' update_user_list(c(\"joh_jo_mueller\", \"hadleywickham\"))\n\n\nupdate_user_list <- function(user_list){\n  user_ok <- lookupUsers(user_list, includeNA=T)\n  user_ok <- vapply(user_ok, function(x){!is.null(x)}, logical(1))\n  user_list <- as.list(user_list)\n\n  for (i in 1:length(user_list)){\n    if (user_ok[[i]] == F){\n      message(user_list[[i]], \" is not on Twitter anymore\")\n      user_list[[i]]<-NULL\n    }\n  }\n\n  user_list <- unlist(user_list)\n  user_list\n}\n",
+    "created" : 1471363766270.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2743549265",
+    "id" : "7C1B9B5E",
+    "lastKnownWriteTime" : 1471379750,
+    "last_content_update" : 1471379750630,
+    "path" : "C:/Users/Johannes/Desktop/network_analysis/twitterNet/R/update_user_list.R",
+    "project_path" : "R/update_user_list.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @title  Set up an adjadency matrix\n#'\n#' @description This function sets up an adjacency matrix from a\n#' list of interactions between Twitter users. This function can be used to set up\n#' a mention-, following- or retweet-matrix.\n#'\n#' @param user_list  chr-vector or -list containing multiple Twitter user names\n#' @param mention_list a list of all interactions - e.g. following, retweet, mention - of one users with other users\n#'\n#' @return Returns an matrix containing the number of directed interactions from a user -cols- to another user -rows-\n#' @export\n#'\n#' @import twitteR\n#' @import stringr\n#'\n#' @examples\n#' # Setup a retweet matrix\n#'  get_adj_matrix(user_list, retweet_list)\n\n\n###Step 4: Function to set up the adj. Matrix using two arguments:\n###             A list of twitter users and a list of all mentions by a user\n\nget_adj_matrix <- function(user_list, mention_list){\n\n  adj_matrix <- matrix(nrow = length(user_list), ncol = length(user_list))\n  colnames(adj_matrix) <- user_list\n  rownames(adj_matrix) <- user_list\n\n  for (i in 1:length(user_list)){\n    for (j in 1:length(user_list)){\n      adj_matrix[j,i] <- str_count(mention_list[i], pattern=paste(user_list[j]))\n    }\n  }\n\n  adj_matrix\n}\n",
+    "created" : 1471363758930.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4060609803",
+    "id" : "B508E93D",
+    "lastKnownWriteTime" : 1471380958,
+    "last_content_update" : 1471380958340,
+    "path" : "C:/Users/Johannes/Desktop/network_analysis/twitterNet/R/get_adj_matrix.R",
+    "project_path" : "R/get_adj_matrix.R",
+    "properties" : {
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
