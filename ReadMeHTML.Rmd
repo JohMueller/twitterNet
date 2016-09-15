@@ -1,0 +1,144 @@
+---
+title: "ReadMe"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Generating Social Networks with Twitter Data
+The package twitterNet was build to make social network analysis with Twitter data more accesible and easier to use. twitterNet helps to setup adjacency matrices of Twitter interactions (mention-network, retweet-network, following-network), which then can be used for further analysis in R or elsewhere. 
+
+The package is publicaly available here <https://github.com/JohMueller/twitterNet>
+
+In the following I will demonstrate the key features of the package.
+
+# Installation
+
+```{r, eval=FALSE}
+devtools::install_github("JohMueller/twitterNet")
+library(twitterNet)
+```
+
+# Setup Twitter Authentication
+
+**The following description of the Authentication Process is copied from the smappR package ReadMe.** <https://github.com/SMAPPNYU/smappR/blob/master/README.md>
+
+We will use this token to connect to the Twitter API and download data. Follow these steps:
+
+ - Go to apps.twitter.com/ and sign in
+ - Click on "Create New App"
+ - Fill name, description, and website (it can be anything, even google.com)
+ - Leave "Callback URL" empty
+ - Agree to user conditions and enter captcha.
+ - Copy consumer key and consumer secret and paste below.
+
+```{r, eval=FALSE}
+library(ROAuth)
+requestURL <- "https://api.twitter.com/oauth/request_token"
+accessURL <- "https://api.twitter.com/oauth/access_token"
+authURL <- "https://api.twitter.com/oauth/authorize"
+consumerKey <- "XXXXXXXXXXXX"
+consumerSecret <- "YYYYYYYYYYYYYYYYYYY"
+my_oauth <- OAuthFactory$new(consumerKey=consumerKey, consumerSecret=consumerSecret, 
+    requestURL=requestURL, accessURL=accessURL, authURL=authURL)
+```
+
+ - Run this line and go to the URL that appears on screen
+
+```{r, eval=FALSE}
+my_oauth$handshake(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl"))
+```
+
+ - Copy and paste the PIN number (6 digits) on the R console
+ - Change current folder into a folder where you will save all your tokens
+
+```{r, eval=FALSE}
+setwd("~/Dropbox/credentials/")
+```
+
+ - Now you can save oauth token for use in future sessions with R
+ 
+```{r, eval=FALSE}
+save(my_oauth, file="my_oauth")
+```
+
+# Setting up a retweet network
+
+The package twitterNet takes any list or vector of Twitter users as an input. 
+The function **update_user_list** removes deactivated or non-existent Twitter user from the list.
+
+
+```{r, eval=FALSE}
+user_list <- c("hadleywickham", "CVWickham", "rstudiotips", "nonsenseaccount0000")
+update_user_list(user_list)
+```
+```{r, echo=FALSE}
+message("nonsenseaccount0000 is not on Twitter anymore")
+c("hadleywickham", "CVWickham", "rstudiotips")
+```
+
+The **update_user_list** function can also be directly called in the **setup_adj_matrix** function. To setup a retweet network we have to use the **type = "retweet"** argument. With the **date_begin** and **date_end** parameters we can choose the time period of which the tweets should be scrape. The **limit** parameter can be used to set a maximum of tweets scraped per person. 
+
+Since the Twitter API has rather strict rate limits for scraping tweets and user information the functions contain a fix in order to setup adjacency matrices for large user lists. Nevertheless scraping large adj. matrices may take a rather long time. I would suggest running the calls on a virtual machine such as an Amazon EC2 server. The setup is quite easy with prebuild AMIs. This website guides you through the setup well: <http://www.louisaslett.com/RStudio_AMI/>
+
+
+```{r, eval=FALSE}
+my_matrix <- setup_adj_matrix(user_list,
+                                  type = "retweet",
+                                  update_list = TRUE,
+                                  limit = 2400,
+                                  date_begin = "2016-02-01",
+                                  date_end = "2016-07-01"))
+```
+```{r, echo=FALSE}
+message("Processing user 1 of 3 at 2016-09-15 10:39:00; Rate Limit Info: 156")
+message("Processing user 2 of 3 at 2016-09-15 10:39:31; Rate Limit Info: 132")
+message("Processing user 3 of 3 at 2016-09-15 10:41:01; Rate Limit Info: 108")
+print("The total number of tweets processed is 275")
+```
+```{r, eval=FALSE}
+my_matrix 
+```
+```{r, echo=FALSE}
+A <- matrix(
+    c(0, 2, 0, 
+      3, 0, 0,
+      3, 1, 0),  
+    nrow=3,              
+    ncol=3,              
+    byrow = TRUE) 
+colnames(A) <- c("hadleywickham", "CVWickham", "rstudiotips")
+rownames(A) <- c("hadleywickham", "CVWickham", "rstudiotips")
+my_matrix <- A
+A
+```
+
+
+# Plotting the retweet network
+The scraped adj. Matrix can be exported and used in another program (such as Visone <https://visone.info/>)to analyse and visualise the network further. It can also be analysed in R directly using packages such as **sna**, **network** or **igraph**. A small example using the latter:
+
+```{r, include=FALSE}
+library(igraph)
+```
+```{r, eval=FALSE}
+library(igraph)
+```
+```{r, eval=TRUE}
+g  <- graph.adjacency(my_matrix,weighted=TRUE)
+plot.igraph(g,vertex.label=V(g)$name,layout=layout.fruchterman.reingold, edge.color="black",edge.width=E(g)$weight)
+```
+
+# What's next?
+
+The package **twitterNet** contains only the basic features that are necessary to set up  adj. matrices from Twitter user lists. It is possible to build following, retweet and mention networks.
+
+In the future I want to include a few functions that help to transform and clean the adj. matrices. Furthermore I am thinking about implementing a feature that allows for snowball sampling over twitter users (e.g. ongoing from one user find all users with the word "Rstudio" in their description box). Another idea is to implement simple sentiment analysis. That would help to not only set up networks of the interactions, but also include information about the quality of the interaction.
+
+
+
+
+
+
+
