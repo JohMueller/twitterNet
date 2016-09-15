@@ -1,3 +1,29 @@
+#' @title  Building Twitter Networks
+#'
+#' @description Set up adjacency matrix for a follower-, mention- or retweet-network given a Twitter user list
+#'
+#' Note that this may take a while due to the Twitter API rate limits...
+#'
+#' @param user_list  chr-vector or -list containing multiple Twitter user names
+#' @param type type of interaction matrix: c("mention", "retweet", "following"), default = "mention"
+#' @param update_list Boolean value if he user list should be updated (strongly recommended as the function will fail if there are inactive users in the list)
+#' @param limit Optional: Limit of Tweets per person
+#' @param date_begin Start date for scraping tweets
+#' @param date_end End date for scraping tweets
+#'
+#' @return Returns an adjacency Matrix
+#' @export
+#'
+#' @import twitteR
+#' @import stringr
+#'
+#' @examples
+#' # Setup a retweet matrix
+#'  user_list <- c("hadleywickham", "joh_jo_mueller")
+#'  get_retweet_list(user_list)
+
+
+
 #### Set up adjacency matrix for a follower-, mention- or retweet-network given a
 #### Twitter_user_list
 

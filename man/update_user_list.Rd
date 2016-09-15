@@ -16,6 +16,6 @@ Returns an updated user list without the inactive Twitter accounts
 Fix for an errorness list of Twitter users. Also prints names of inactive accounts.
 }
 \examples{
-update_user_list(c("joh_jo_mueller", "hadleywickham"))
+update_user_list(c("RStudio", "hadleywickham"))
 }
 

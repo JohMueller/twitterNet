@@ -1,7 +1,7 @@
 #' @title  Update a twitter user list
 #'
 #' @description Fix for an errorness list of Twitter users. Also prints names of inactive accounts.
-#' blablabla
+#'
 #' @param user_list  chr-vector or -list containing multiple Twitter user names
 #' @return Returns an updated user list without the inactive Twitter accounts
 #' @export

@@ -20,6 +20,7 @@ list of interactions between Twitter users. This function can be used to set up
 a mention-, following- or retweet-matrix.
 }
 \examples{
-get_adj_matrix(user_list, retweet_list)
+# Setup a retweet matrix
+ get_adj_matrix(user_list, retweet_list)
 }
 
